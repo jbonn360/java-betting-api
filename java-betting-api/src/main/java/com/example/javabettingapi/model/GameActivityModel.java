@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class GameActivity {
+public class GameActivityModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
