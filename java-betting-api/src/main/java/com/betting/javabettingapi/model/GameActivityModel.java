@@ -20,6 +20,8 @@ public class GameActivityModel {
 
     private BigDecimal betAmount;
 
+    private BigDecimal amountWon;
+
     @Enumerated(EnumType.ORDINAL)
     private Currency currency;
 

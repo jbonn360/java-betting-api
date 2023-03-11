@@ -17,7 +17,7 @@ import java.time.Instant;
 public class GameModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private Instant gameDt;
 }

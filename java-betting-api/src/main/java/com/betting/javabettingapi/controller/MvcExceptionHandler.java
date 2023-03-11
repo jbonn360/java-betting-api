@@ -3,6 +3,7 @@ package com.betting.javabettingapi.controller;
 import com.betting.javabettingapi.dto.ErrorDto;
 import com.betting.javabettingapi.exception.EntityNotFoundException;
 import com.betting.javabettingapi.exception.InsufficientFundsException;
+import com.betting.javabettingapi.exception.InvalidPlayerException;
 import com.betting.javabettingapi.exception.UsernameTakenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,21 +22,28 @@ public class MvcExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDto> entityNotFoundErrorHandler(EntityNotFoundException ex) {
+    public ResponseEntity<ErrorDto> entityNotFoundErrorHandlerHandler(EntityNotFoundException ex) {
         final ErrorDto error = new ErrorDto(ex.getMessage());
 
         return new ResponseEntity(error, httpHeaders, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InsufficientFundsException.class)
-    public ResponseEntity<ErrorDto> insufficientFundsException(InsufficientFundsException ex) {
+    public ResponseEntity<ErrorDto> insufficientFundsExceptionHandler(InsufficientFundsException ex) {
         final ErrorDto error = new ErrorDto(ex.getMessage());
 
         return new ResponseEntity(error, httpHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UsernameTakenException.class)
-    public ResponseEntity<ErrorDto> usernameTakenException(UsernameTakenException ex) {
+    public ResponseEntity<ErrorDto> usernameTakenExceptionHandler(UsernameTakenException ex) {
+        final ErrorDto error = new ErrorDto(ex.getMessage());
+
+        return new ResponseEntity(error, httpHeaders, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidPlayerException.class)
+    public ResponseEntity<ErrorDto> invalidPlayerExceptionHandler(InvalidPlayerException ex) {
         final ErrorDto error = new ErrorDto(ex.getMessage());
 
         return new ResponseEntity(error, httpHeaders, HttpStatus.CONFLICT);
