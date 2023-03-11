@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Data
+@AllArgsConstructor
 @Builder
+@Data
 @Entity
 public class GameActivityModel {
-    public GameActivityModel(){    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,4 +39,8 @@ public class GameActivityModel {
     private BetStatus betStatus;
 
     private BigDecimal playerBalanceAfter;
+
+    public GameActivityModel() {
+
+    }
 }

@@ -10,6 +10,7 @@ import com.betting.javabettingapi.model.PlayerModel;
 import com.betting.javabettingapi.model.WalletModel;
 import com.betting.javabettingapi.repository.PlayerRepository;
 import com.betting.javabettingapi.repository.WalletRepository;
+import com.betting.javabettingapi.utils.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,7 @@ public class PlayerServiceImpl implements PlayerService {
         if(playerRepository.findByUsername(playerDto.getUsername()).isPresent())
             throw new UsernameTakenException("This username already exists. Please choose a new one.");
 
-        WalletModel walletModel = new WalletModel(-1l, null, startingBalance);
+        WalletModel walletModel = new WalletModel(-1l, null, startingBalance, Currency.EUR);
         WalletModel walletModelSaved = walletRepository.save(walletModel);
 
         PlayerModel playerModel = playerMapper.playerDtoToPlayerModel(playerDto);

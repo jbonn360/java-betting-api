@@ -83,10 +83,10 @@ public class GameActivityServiceImpl implements GameActivityService {
 
         // update game outcome
         if (gameWon) {
-            gameActivity.setBetStatus(BetStatus.WON);
+            gameActivity.setBetStatus(BetStatus.WIN);
             gameActivity.setAmountWon(betDto.getBetAmount().add(prize));
         } else {
-            gameActivity.setBetStatus(BetStatus.LOST);
+            gameActivity.setBetStatus(BetStatus.LOSS);
             gameActivity.setAmountWon(BigDecimal.ZERO);
         }
 
@@ -104,7 +104,7 @@ public class GameActivityServiceImpl implements GameActivityService {
 
     private BetResultDto createBetResult(GameActivityModel gameActivity, BigDecimal balanceAfter) {
         BetResultDto resultDto = BetResultDto.builder()
-                .gameActivityId(gameActivity.getId())
+                .gameActivityId(gameActivity.getGameActivityId().toString())
                 .outcome(gameActivity.getBetStatus())
                 .winAmount(gameActivity.getAmountWon())
                 .currency(gameActivity.getCurrency())
