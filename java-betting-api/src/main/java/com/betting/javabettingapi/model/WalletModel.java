@@ -1,10 +1,11 @@
-package com.example.javabettingapi.model;
+package com.betting.javabettingapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,6 @@ public class WalletModel {
 
     @OneToOne
     private PlayerModel player;
+
+    private BigDecimal balance;
 }

@@ -1,7 +1,7 @@
-package com.example.javabettingapi.model;
+package com.betting.javabettingapi.model;
 
-import com.example.javabettingapi.utils.BetStatus;
-import com.example.javabettingapi.utils.Currency;
+import com.betting.javabettingapi.utils.BetStatus;
+import com.betting.javabettingapi.utils.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

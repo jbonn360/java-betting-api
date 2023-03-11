@@ -1,4 +1,4 @@
-package com.example.javabettingapi.model;
+package com.betting.javabettingapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

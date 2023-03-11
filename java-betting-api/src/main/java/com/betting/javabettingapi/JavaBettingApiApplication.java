@@ -1,4 +1,4 @@
-package com.example.javabettingapi;
+package com.betting.javabettingapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
