@@ -12,7 +12,7 @@ To run the application, run the main method in the source file 'JavaBettingApiAp
 
 Alternatively, the application can also be built into a JAR file and run with the following command: 
 
-    java -jar simple-betting-api.jar
+    java -jar java-betting-api.jar
 
 By default, the application binds to port 8080.
 
