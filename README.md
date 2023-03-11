@@ -1,4 +1,4 @@
-# Simple Betting API
+# Java Betting API
 ## Description
 This is a simple API that can be used to create an account, place bets, and play a simple game of chance. 
 
