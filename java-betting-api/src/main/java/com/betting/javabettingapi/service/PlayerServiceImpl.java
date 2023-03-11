@@ -38,15 +38,22 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDto getPlayerById(Long playerId) {
+        PlayerModel player = getPlayerModelById(playerId);
+
+        PlayerDto playerDto = playerMapper.playerModelToPlayerDto(player);
+
+        return playerDto;
+    }
+
+    @Override
+    public PlayerModel getPlayerModelById(Long playerId) {
         PlayerModel player = playerRepository.findById(playerId).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Player with id %d was not found.", playerId)
                 )
         );
 
-        PlayerDto playerDto = playerMapper.playerModelToPlayerDto(player);
-
-        return playerDto;
+        return player;
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.betting.javabettingapi.model;
 
+import com.betting.javabettingapi.utils.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,7 @@ public class WalletModel {
     private PlayerModel player;
 
     private BigDecimal balance;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Currency currency;
 }

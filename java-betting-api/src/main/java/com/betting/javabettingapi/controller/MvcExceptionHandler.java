@@ -1,10 +1,7 @@
 package com.betting.javabettingapi.controller;
 
 import com.betting.javabettingapi.dto.ErrorDto;
-import com.betting.javabettingapi.exception.EntityNotFoundException;
-import com.betting.javabettingapi.exception.InsufficientFundsException;
-import com.betting.javabettingapi.exception.InvalidPlayerException;
-import com.betting.javabettingapi.exception.UsernameTakenException;
+import com.betting.javabettingapi.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,8 +39,8 @@ public class MvcExceptionHandler {
         return new ResponseEntity(error, httpHeaders, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(InvalidPlayerException.class)
-    public ResponseEntity<ErrorDto> invalidPlayerExceptionHandler(InvalidPlayerException ex) {
+    @ExceptionHandler(GameActivityIdExistsException.class)
+    public ResponseEntity<ErrorDto> gameActivityIdExistsExceptionHandler(GameActivityIdExistsException ex) {
         final ErrorDto error = new ErrorDto(ex.getMessage());
 
         return new ResponseEntity(error, httpHeaders, HttpStatus.CONFLICT);

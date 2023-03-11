@@ -3,6 +3,7 @@ package com.betting.javabettingapi.model;
 import com.betting.javabettingapi.utils.BetStatus;
 import com.betting.javabettingapi.utils.Currency;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,17 +11,18 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @Entity
 public class GameActivityModel {
+    public GameActivityModel(){    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal betAmount;
+    @Column(unique = true)
+    private Long gameActivityId;
 
-    private BigDecimal amountWon;
+    private BigDecimal betAmount;
 
     @Enumerated(EnumType.ORDINAL)
     private Currency currency;
@@ -28,9 +30,13 @@ public class GameActivityModel {
     @OneToOne
     private PlayerModel player;
 
+    @OneToOne
+    private GameModel game;
+
+    private BigDecimal amountWon;
+
     @Enumerated(EnumType.ORDINAL)
     private BetStatus betStatus;
 
-    @OneToOne
-    private GameModel game;
+    private BigDecimal playerBalanceAfter;
 }

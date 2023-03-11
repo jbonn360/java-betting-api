@@ -1,0 +1,1 @@
+INSERT INTO game (id, gameDt) VALUES (1, TO_TIMESTAMP(:ts_val, '2023-03-11 08:05:30'));
