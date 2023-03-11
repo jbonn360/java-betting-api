@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Entity
 public class WalletModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

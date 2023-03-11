@@ -32,7 +32,7 @@ public class PlayerController {
         final Long playerId = playerService.createPlayerAccount(playerDto);
 
         final HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", String.format("/api/v1/player/%d"));
+        headers.add("Location", String.format("/api/v1/player/%d", playerId));
 
         // return location header
         return new ResponseEntity(headers, HttpStatus.CREATED);
