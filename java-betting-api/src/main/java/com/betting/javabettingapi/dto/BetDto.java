@@ -1,14 +1,14 @@
 package com.betting.javabettingapi.dto;
 
 import com.betting.javabettingapi.utils.Currency;
+
 import lombok.Builder;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+@Builder
 @Data
 public class BetDto {
     @NotNull

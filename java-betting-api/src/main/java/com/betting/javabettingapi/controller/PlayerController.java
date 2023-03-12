@@ -2,13 +2,13 @@ package com.betting.javabettingapi.controller;
 
 import com.betting.javabettingapi.dto.PlayerDto;
 import com.betting.javabettingapi.service.PlayerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/player")
@@ -28,7 +28,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpHeaders> createPlayerAccount(@RequestBody PlayerDto playerDto) {
+    public ResponseEntity<HttpHeaders> createPlayerAccount(@Valid @RequestBody PlayerDto playerDto) {
         final Long playerId = playerService.createPlayerAccount(playerDto);
 
         final HttpHeaders headers = new HttpHeaders();

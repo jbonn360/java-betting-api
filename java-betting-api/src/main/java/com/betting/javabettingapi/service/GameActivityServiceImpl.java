@@ -2,8 +2,10 @@ package com.betting.javabettingapi.service;
 
 import com.betting.javabettingapi.dto.BetDto;
 import com.betting.javabettingapi.dto.BetResultDto;
+import com.betting.javabettingapi.dto.BetResultListDto;
 import com.betting.javabettingapi.exception.GameActivityIdExistsException;
 import com.betting.javabettingapi.exception.InsufficientFundsException;
+import com.betting.javabettingapi.mappers.BetResultMapper;
 import com.betting.javabettingapi.model.GameActivityModel;
 import com.betting.javabettingapi.model.GameModel;
 import com.betting.javabettingapi.model.PlayerModel;
@@ -13,16 +15,20 @@ import com.betting.javabettingapi.utils.BetStatus;
 import com.betting.javabettingapi.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameActivityServiceImpl implements GameActivityService {
     private final GameService gameService;
     private final PlayerService playerService;
     private final GameActivityRepository gameActivityRepository;
+    private final BetResultMapper betMapper;
     private final Utils utils;
     private final BigDecimal prize;
 
@@ -30,14 +36,30 @@ public class GameActivityServiceImpl implements GameActivityService {
             @Autowired GameService gameService,
             @Autowired PlayerService playerService,
             @Autowired GameActivityRepository gameActivityRepository,
+            @Autowired BetResultMapper betMapper,
             @Autowired Utils utils,
-            @Value("${app.game.prize}") BigDecimal prize)
-    {
+            @Value("${app.game.prize}") BigDecimal prize) {
         this.gameService = gameService;
         this.playerService = playerService;
         this.gameActivityRepository = gameActivityRepository;
+        this.betMapper = betMapper;
         this.utils = utils;
         this.prize = prize;
+    }
+
+    @Override
+    public BetResultListDto getAllBets(int limit, int offset) {
+        List<GameActivityModel> gameActivityList =
+                gameActivityRepository.findAllByOrderByIdAsc(PageRequest.of(offset, limit));
+
+        // map game activity model to bet result dto
+        List<BetResultDto> betResults = gameActivityList.stream().map(
+                betMapper::gameActivityModelToBetResultDto
+        ).collect(Collectors.toList());
+
+        BetResultListDto result = new BetResultListDto(betResults);
+
+        return result;
     }
 
     @Transactional
@@ -67,12 +89,11 @@ public class GameActivityServiceImpl implements GameActivityService {
                 betDto, gameWon, player, game, walletUpdated.getBalance());
 
         // put together bet result dto object and return it
-        return createBetResult(gameActivitySaved, walletUpdated.getBalance());
+        return createBetResult(gameActivitySaved);
     }
 
     private GameActivityModel createGameActivityModel(
-            BetDto betDto, boolean gameWon, PlayerModel player, GameModel game, BigDecimal newBalance)
-    {
+            BetDto betDto, boolean gameWon, PlayerModel player, GameModel game, BigDecimal newBalance) {
         final GameActivityModel gameActivity = GameActivityModel.builder()
                 .gameActivityId(betDto.getGameActivityId())
                 .betAmount(betDto.getBetAmount())
@@ -83,11 +104,11 @@ public class GameActivityServiceImpl implements GameActivityService {
 
         // update game outcome
         if (gameWon) {
-            gameActivity.setBetStatus(BetStatus.WIN);
-            gameActivity.setAmountWon(betDto.getBetAmount().add(prize));
+            gameActivity.setOutcome(BetStatus.WIN);
+            gameActivity.setWinAmount(betDto.getBetAmount().add(prize));
         } else {
-            gameActivity.setBetStatus(BetStatus.LOSS);
-            gameActivity.setAmountWon(BigDecimal.ZERO);
+            gameActivity.setOutcome(BetStatus.LOSS);
+            gameActivity.setWinAmount(BigDecimal.ZERO.subtract(betDto.getBetAmount()));
         }
 
         //persist updated game activity entity in database
@@ -102,13 +123,10 @@ public class GameActivityServiceImpl implements GameActivityService {
         return playerService.addAmountToPlayerWalletBalance(playerId, amountToAdd);
     }
 
-    private BetResultDto createBetResult(GameActivityModel gameActivity, BigDecimal balanceAfter) {
-        BetResultDto resultDto = BetResultDto.builder()
-                .gameActivityId(gameActivity.getGameActivityId().toString())
-                .outcome(gameActivity.getBetStatus())
-                .winAmount(gameActivity.getAmountWon())
-                .currency(gameActivity.getCurrency())
-                .playerBalanceAfter(balanceAfter).build();
+    private BetResultDto createBetResult(GameActivityModel gameActivity) {
+        BetResultDto resultDto = betMapper.gameActivityModelToBetResultDto(gameActivity);
+        resultDto.setGameId(null);
+        resultDto.setBetAmount(null);
 
         return resultDto;
     }
