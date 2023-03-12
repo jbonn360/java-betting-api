@@ -1,0 +1,1 @@
+INSERT INTO game (id, name) VALUES (1, '50% Chance Game');

@@ -1,0 +1,7 @@
+package com.betting.javabettingapi.exception;
+
+public class InvalidTransactionException extends RuntimeException{
+    public InvalidTransactionException(String message) {
+        super(message);
+    }
+}
