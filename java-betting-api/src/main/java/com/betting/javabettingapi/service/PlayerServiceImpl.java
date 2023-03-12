@@ -63,14 +63,13 @@ public class PlayerServiceImpl implements PlayerService {
         if(playerRepository.findByUsername(playerDto.getUsername()).isPresent())
             throw new UsernameTakenException("This username already exists. Please choose a new one.");
 
-        WalletModel walletModel = new WalletModel(-1l, null, startingBalance, Currency.EUR);
+        WalletModel walletModel = new WalletModel(-1l, startingBalance, Currency.EUR);
         WalletModel walletModelSaved = walletRepository.save(walletModel);
 
         PlayerModel playerModel = playerMapper.playerDtoToPlayerModel(playerDto);
         playerModel.setWallet(walletModelSaved);
         PlayerModel playerModelSaved = playerRepository.save(playerModel);
 
-        walletModelSaved.setPlayer(playerModelSaved);
         walletModelSaved = walletRepository.save(walletModelSaved);
 
         return playerModelSaved.getId();

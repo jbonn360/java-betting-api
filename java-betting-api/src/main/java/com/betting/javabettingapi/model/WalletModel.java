@@ -17,8 +17,8 @@ public class WalletModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private PlayerModel player;
+//    @OneToOne
+//    private PlayerModel player;
 
     private BigDecimal balance;
 
