@@ -86,7 +86,7 @@ Alternatively, they can also be run via the following maven command in the proje
 
 ### Request
 
-`GET /api/v1/gameactivity?limit=2&offset=0`
+`GET /api/v1/gameactivity?limit={limit}&offset={offset}`
 
     curl -i -H 'Accept: application/json' "http://localhost:8080/api/v1/gameactivity?limit=2&offset=0"
 
